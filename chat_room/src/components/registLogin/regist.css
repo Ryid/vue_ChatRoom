@@ -1,0 +1,63 @@
+.login_group {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url(https://pixta.jp/guide/wp-content/uploads/2020/04/pixta_56595940_L.jpg?from=antenna);
+    background-size: cover;
+  }
+  .login {
+    border: solid 6px #fff;
+    width: 600px;
+    height: 400px;
+    box-shadow: 0 0 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(40px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .login form {
+    /* border:  solid 1px; */
+    width: 400px;
+    color: #fff;
+  }
+  .login h2 {
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 10px;
+  }
+  .login label {
+    line-height: 2.5;
+  }
+  .login form input {
+    width: 100%;
+    line-height: 2.5;
+    border-radius: 6px;
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+  .login input:focus {
+    outline: none;
+  }
+  .buttonGroup {
+    font-size: 0;
+    text-align: center;
+    margin-top: 20px;
+  }
+  .login button {
+    margin-top: 40px;
+    border: none;
+    padding: 10px 0;
+    font-size: 16px;
+    width: 195px;
+    border-radius: 4px;
+    background-color: rgb(226, 225, 225);
+    cursor: pointer;
+  }
+  .login button + button {
+    margin-left: 10px;
+  }

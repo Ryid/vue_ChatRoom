@@ -4,6 +4,8 @@ const bodyparser = require('koa-bodyparser')
 const jwt = require('jsonwebtoken') //產生token
 const db = require('../utils/db')
 login.use(bodyparser()) //調用這個中間件取得前端Post的值
+const userUtil = require('../utils/user') //密碼加密使用
+
 
 login.post('/', async (ctx) => {
     // console.log(ctx.request.body) //顯示傳來的值
@@ -22,7 +24,8 @@ login.post('/', async (ctx) => {
 
     if (myarr.length > 0) {
         console.log(myarr)
-        if (myarr[0].password === password) {
+        const res = await userUtil.verifyPasswordAsync(password, myarr[0].password); //驗證hex密碼是否正確
+        if (res) {
             ctx.body = {
                 msg: '登入成功',
                 token: myarr[0].token,
@@ -35,6 +38,7 @@ login.post('/', async (ctx) => {
             }
         }
     } else if (username != '' && password != '') {
+        password = await userUtil.encryptPasswordAsync(ctx.request.body.password);
         //expiresIn token存在時間 3600=1小時
         let mytoken = jwt.sign({ username: username, password: password }, 'secret', { expiresIn: '1h' });
         let insertSql = `insert into user (id,username,password,token) values(null,'${username}','${password}','${mytoken}')`;

@@ -50,6 +50,12 @@ export default {
         })
         .catch((err) => console.log(err));
     },
+    refresh() {
+      setInterval(() => {
+        this.getMsg();
+        console.log(123);
+      }, 3000);
+    },
     sendMsg() {
       if (this.myMsg == "") return;
       let date = new Date();
@@ -60,12 +66,14 @@ export default {
           ? "0" + date.getMinutes()
           : "" + date.getMinutes();
       let now = `${hour}:${min}`;
+
       let msg = {
         username: this.user.username,
         msg: this.myMsg,
         timestamp: now,
         purpose: this.changeChat,
       };
+
       axios
         .post("http://localhost:1111/sendMsg", msg)
         .then((res) => {
@@ -75,33 +83,26 @@ export default {
         .catch((err) => console.log(err));
     },
   },
-  created() {
-    axios
-      .post("http://localhost:1111/getChatMsg", {
-        purpose: "group",
-      })
-      .then((res) => {
-        // console.log(res.data);
-        this.chatMsg = res.data;
-      })
-      .catch((err) => console.log(err));
-  },
+  props: ["user", "changeChat"],
   watch: {
     changeChat() {
       this.getMsg();
     },
-    chatMsg() {
-      setTimeout(() => {
-        this.getMsg();
-      }, 3000);
-    },
+  },
+  created() {
+    this.getMsg();
+    this.timer = setInterval(() => {
+      this.getMsg();
+    }, 3000);
   },
   updated() {
     // 讓scroll保持在最下面
     let ele = document.querySelector(".chatRoom ul");
     ele.scrollTop = ele.scrollHeight;
   },
-  props: ["user", "changeChat"],
+  unmounted() {
+    clearInterval(this.timer);
+  },
 };
 </script>
 
